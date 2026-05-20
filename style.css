@@ -345,3 +345,26 @@ p {
     font-size: 40px;
     animation: float 4s ease-in-out infinite reverse;
 }
+
+@media (max-width: 768px) {
+    .book {
+        width: 90vw !important;  
+        height: 60vh !important; 
+    }
+    
+   
+    h1, h2 {
+        font-size: 1.1rem !important;
+    }
+    p {
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+    }
+    
+    
+    .page-image, .cover-image {
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 140px !important;
+    }
+}
