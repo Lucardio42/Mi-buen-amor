@@ -346,25 +346,38 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
+/* REGLAS ESPECIALES PARA QUE SE VEA PERFECTO EN CELULARES */
 @media (max-width: 768px) {
-    .book {
-        width: 90vw !important;  
+    /* Fuerza al contenedor del libro a encogerse al ancho del celular */
+    #book, .book {
+        width: 92vw !important;  
         height: 60vh !important; 
+        max-width: 400px !important; /* Evita que se estire de más */
+        margin: 0 auto !important;
     }
-    
-   
+
+    /* Asegura que las páginas internas se adapten al nuevo tamaño encogido */
+    .paper, .front, .back, .front-content, .back-content {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Encoje los títulos y textos para que no se desborden de las hojas */
     h1, h2 {
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
+        margin-top: 5px !important;
     }
     p {
         font-size: 11px !important;
-        line-height: 1.4 !important;
+        line-height: 1.3 !important;
     }
     
-    
-    .page-image, .cover-image {
-        max-width: 100% !important;
+    /* Asegura que las imágenes se adapten dentro del tamaño del celular */
+    .page-image, .cover-image, img {
+        max-width: 90% !important;
         height: auto !important;
-        max-height: 140px !important;
+        max-height: 130px !important;
+        display: block !important;
+        margin: 0 auto !important;
     }
 }
