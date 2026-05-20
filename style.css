@@ -346,129 +346,102 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
-/* SOLUCIÓN DE PRECISIÓN: BOTONES FIJOS, AMBAS CARAS VISIBLES Y CONTRASEÑA ACTIVA */
+/* SOLUCIÓN FINAL Y DEFINITIVA: CARTA VERTICAL FLUIDA (SIN SALTOS NI BOTONES DUPLICADOS) */
 @media (max-width: 768px) {
+    /* Evita que el fondo se mueva a los lados */
     html, body {
         overflow-x: hidden !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
+        background-attachment: scroll !important; /* Mejora el fondo en móviles */
     }
 
+    /* Contenedor principal: ahora es una columna vertical */
     #book, .book {
-        width: 92vw !important;  
-        height: 78vh !important; /* Un poco más alto para dar aire a los botones */
-        max-width: 360px !important; 
-        margin: 20px auto !important;
+        width: 95vw !important;  
+        height: auto !important; /* ¡IMPORTANTE! Crece hacia abajo */
+        max-width: 380px !important; 
+        margin: 10px auto !important;
         position: relative !important;
         transform: none !important;
         perspective: none !important;
+        display: flex !important;
+        flex-direction: column !important; /* Apila las hojas una debajo de la otra */
+        align-items: center !important;
         left: 0 !important;
     }
 
-    /* Permite que el script controle qué hoja se muestra sin romper el flujo */
+    /* Desactiva el sistema de capas de JavaScript en celular para evitar conflictos */
     .paper {
         width: 100% !important;
-        height: 100% !important;
-        position: absolute !important;
+        height: auto !important;
+        position: relative !important; 
+        transform: none !important;
+        box-shadow: none !important;
+        display: block !important; /* ¡IMPORTANTE! Muestra TODAS las hojas de corrido */
+        margin-bottom: 20px !important; /* Separa una hoja de la siguiente */
         left: 0 !important;
         top: 0 !important;
-        transform: none !important;
+        backface-visibility: visible !important;
+        z-index: 1 !important;
     }
 
-    /* CAMBIO CLAVE: Separa la página izquierda y derecha de forma vertical para que NADA se tape */
-    .front {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
+    /* Muestra la página izquierda y derecha una debajo de la otra */
+    .front, .back {
+        position: relative !important; 
         width: 100% !important;
-        height: 48% !important; /* Toma la mitad superior de la hoja */
-        padding: 15px !important;
+        height: auto !important;
+        min-height: 250px !important; /* Altura mínima para que tengan forma de hoja */
+        padding: 20px !important;
         box-sizing: border-box !important;
         background-color: #fff !important;
-        border-radius: 12px 12px 0 0 !important; /* Redondeado arriba */
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
-        overflow-y: auto !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
         backface-visibility: visible !important;
-        z-index: 2 !important;
+        transform: none !important; /* Evita textos al revés */
+        display: block !important;
+        margin-bottom: 10px !important; /* Separa el frente del reverso */
     }
 
-    .back {
-        position: absolute !important;
-        bottom: 0 !important; /* Se clava en la mitad inferior */
-        left: 0 !important;
-        width: 100% !important;
-        height: 48% !important; 
-        padding: 15px !important;
-        box-sizing: border-box !important;
-        background-color: #fff !important;
-        border-radius: 0 0 12px 12px !important; /* Redondeado abajo */
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-        overflow-y: auto !important;
-        backface-visibility: visible !important;
-        transform: none !important; /* Evita que el texto salga al revés */
-        z-index: 2 !important;
+    /* SOLUCIÓN AL PROBLEMA DE LOS BOTONES: Los ocultamos por completo en celular */
+    /* Ella no los necesita porque leerá deslizando hacia abajo */
+    .next-btn, .prev-btn {
+        display: none !important;
+        visibility: hidden !important;
     }
 
-    /* Asegura que si la hoja se voltea, los contenidos sigan visibles */
-    .paper.flipped .front, .paper.flipped .back {
-        backface-visibility: visible !important;
-        transform: none !important;
-    }
-
-    /* Ajuste de textos para que quepan perfectos en sus respectivas mitades */
+    /* Encoje los textos para que quepan perfectos */
     h1, h2 {
-        font-size: 1.1rem !important;
-        margin-top: 2px !important;
-        margin-bottom: 6px !important;
+        font-size: 1.25rem !important;
+        margin-top: 5px !important;
+        margin-bottom: 10px !important;
         text-align: center !important;
         color: #d14d72 !important;
     }
     
     p {
-        font-size: 11px !important;
-        line-height: 1.35 !important;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        text-align: left !important;
     }
 
-    /* Ajusta el tamaño de las fotos para que dejen espacio al texto */
+    /* Ajusta las imágenes y fotos para que queden centradas y nítidas */
     .page-image, .cover-image, img {
-        max-width: 80% !important;
+        max-width: 90% !important;
         height: auto !important;
-        max-height: 95px !important; /* Tamaño compacto ideal */
+        max-height: 160px !important;
         display: block !important;
-        margin: 5px auto !important;
-        border-radius: 6px !important;
+        margin: 12px auto !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
     }
 
-    /* ARREGLO DE BOTONES: Forzamos su aparición y los ponemos flotando abajo del todo */
-    .next-btn, .prev-btn {
-        display: inline-block !important; /* Obliga a que se muestren */
-        visibility: visible !important;
-        position: fixed !important; /* Se quedan estáticos abajo de la pantalla táctil */
-        bottom: 25px !important;
-        font-size: 12px !important;
-        padding: 10px 20px !important;
-        background-color: #d14d72 !important;
-        color: white !important;
-        border: 2px solid #fff !important;
-        border-radius: 25px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
-        z-index: 9999px !important; /* Por encima de cualquier elemento */
-        cursor: pointer !important;
-    }
-
-    /* Ubicación exacta en las esquinas de la pantalla del celular */
-    .prev-btn {
-        left: 25px !important;
-    }
-    .next-btn {
-        right: 25px !important;
-    }
-
-    /* Contenedor de contraseña */
+    /* Contenedor de la contraseña: la mantenemos al principio */
     #password-container, .password-screen {
         width: 100% !important;
         padding: 20px !important;
         box-sizing: border-box !important;
+        margin-bottom: 20px !important;
     }
 }
