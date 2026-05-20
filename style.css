@@ -346,6 +346,11 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
+/* OCULTA LOS BOTONES NUEVOS EN LA COMPUTADORA */
+.book-buttons {
+    display: none;
+}
+
 /* REGLAS FINALES DEFINITIVAS: UNA PÁGINA A LA VEZ CON BOTONES COMPATIBLES */
 @media (max-width: 768px) {
     html, body {
