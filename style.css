@@ -346,49 +346,61 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
-/* REGLAS MÁGICAS: ASÍ SE VERÁ TU LIBRO EN CUALQUIER CELULAR */
+/* REGLAS MÁGICAS: ASÍ SE VERÁ TU LIBRO EN CUALQUIER CELULAR (AMBAS PÁGINAS VISIBLES) */
 @media (max-width: 768px) {
-    /* Centra el fondo del sitio y evita que se mueva a los lados */
+    /* Evita que el fondo se mueva a los lados */
     body {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
         overflow-x: hidden !important;
         padding: 10px !important;
         margin: 0 !important;
     }
 
-    /* Fuerza al contenedor principal a centrarse perfectamente en el celular */
+    /* Contenedor principal adaptado */
     #book, .book {
-        width: 90vw !important;  
-        height: 70vh !important; 
-        max-width: 360px !important; /* Ancho ideal para pantallas móviles */
+        width: 95vw !important;  
+        height: auto !important; /* Deja que crezca si hay mucho contenido */
+        max-width: 380px !important; 
         margin: 0 auto !important;
-        transform: none !important;  /* Quita rotaciones extrañas */
+        transform: none !important;  
         left: 0 !important;
         position: relative !important;
+        perspective: none !important; /* Desactiva el 3D que rompe el celular */
     }
 
-    /* Ajusta las hojas para que se adapten al ancho del celular sin salirse */
+    /* Desactivamos la rotación 3D en las hojas para evitar que se tapen */
     .paper {
         width: 100% !important;
-        height: 100% !important;
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
+        height: auto !important;
+        position: relative !important; /* Se apilan de forma normal */
+        transform: none !important;
+        box-shadow: none !important;
+        display: none !important; /* Ocultamos todas por defecto */
     }
 
-    /* Centra los contenidos internos de cada hoja */
-    .front, .back, .front-content, .back-content {
+    /* Solo mostramos la hoja que está activa en ese momento */
+    .paper.active {
+        display: block !important;
+    }
+
+    /* ARREGLO CLAVE: Fuerza a que tanto la página izquierda como la derecha sean visibles */
+    .front, .back {
+        position: relative !important; /* Ya no se tapan una a la otra */
         width: 100% !important;
-        height: 100% !important;
+        height: auto !important;
+        min-height: 300px !important;
+        backface-visibility: visible !important; /* Fuerza al celular a mostrar ambas */
+        transform: none !important;
+        display: block !important;
         padding: 15px !important;
         box-sizing: border-box !important;
+        margin-bottom: 15px !important; /* Separa la página de arriba de la de abajo */
+        background-color: #fff !important; /* Asegura que tengan su fondo bonito */
+        border-radius: 10px !important;
     }
 
-    /* Encoje los textos para que quepan perfectos sin deformar la hoja */
+    /* Encoje los textos para que quepan perfectos */
     h1, h2 {
-        font-size: 1.1rem !important;
+        font-size: 1.2rem !important;
         margin-top: 5px !important;
         margin-bottom: 8px !important;
         text-align: center !important;
@@ -400,19 +412,24 @@ p {
         text-align: left !important;
     }
 
-    /* Ajusta las imágenes y stickers para que no empujen el botón de Siguiente */
+    /* Ajusta las imágenes y fotos para que queden centradas */
     .page-image, .cover-image, img {
         max-width: 85% !important;
         height: auto !important;
-        max-height: 120px !important;
+        max-height: 140px !important;
         display: block !important;
         margin: 10px auto !important;
     }
 
-    /* Acomoda los botones abajo para que no estorben */
+    /* Deja los botones fijos abajo de las tarjetas de texto */
     .next-btn, .prev-btn {
-        bottom: 10px !important;
-        font-size: 12px !important;
-        padding: 6px 12px !important;
+        position: relative !important;
+        display: block !important;
+        margin: 15px auto 0 auto !important;
+        bottom: 0 !important;
+        font-size: 13px !important;
+        padding: 8px 16px !important;
+        width: 60% !important;
+        text-align: center !important;
     }
 }
