@@ -1,7 +1,7 @@
 const book = document.querySelector("#book");
 const allPapers = document.querySelectorAll(".paper");
-const nextButtons = document.querySelectorAll(".next-btn, #next-btn");
-const prevButtons = document.querySelectorAll(".prev-btn, #prev-btn");
+const nextButtons = document.querySelectorAll(".next-btn");
+const prevButtons = document.querySelectorAll(".prev-btn");
 
 // Elementos del candado
 const lockModal = document.querySelector("#lock-modal");
