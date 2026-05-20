@@ -345,19 +345,3 @@ p {
     font-size: 40px;
     animation: float 4s ease-in-out infinite reverse;
 }
-
-@media (max-width: 768px) {
-    #book {
-        transform: scale(0.8) !important; /* Ajusta el tamaño para que quepa en pantalla */
-        margin: 0 auto !important;
-    }
-    
-    /* Esto permite que los botones originales sean más fáciles de tocar con el dedo */
-    .next-btn, .prev-btn {
-        padding: 15px 30px !important;
-        font-size: 16px !important;
-        background-color: #d14d72 !important;
-        color: white !important;
-        border-radius: 20px !important;
-    }
-}
