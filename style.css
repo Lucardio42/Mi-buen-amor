@@ -346,90 +346,82 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
-/* REGLAS MÁGICAS: ASÍ SE VERÁ TU LIBRO EN CUALQUIER CELULAR (AMBAS PÁGINAS VISIBLES) */
+/* REGLAS MÁGICAS DEFINITIVAS PARA CUALQUIER CELULAR */
 @media (max-width: 768px) {
-    /* Evita que el fondo se mueva a los lados */
+    /* Evita que el fondo se mueva feo a los lados */
     body {
         overflow-x: hidden !important;
         padding: 10px !important;
         margin: 0 !important;
+        display: block !important;
     }
 
-    /* Contenedor principal adaptado */
+    /* El contenedor del libro ahora se adapta a lo largo */
     #book, .book {
         width: 95vw !important;  
-        height: auto !important; /* Deja que crezca si hay mucho contenido */
+        height: auto !important; 
         max-width: 380px !important; 
-        margin: 0 auto !important;
+        margin: 20px auto !important;
         transform: none !important;  
         left: 0 !important;
         position: relative !important;
         perspective: none !important; /* Desactiva el 3D que rompe el celular */
     }
 
-    /* Desactivamos la rotación 3D en las hojas para evitar que se tapen */
+    /* Fuerza a las hojas a ponerse una debajo de la otra de forma fluida */
     .paper {
         width: 100% !important;
         height: auto !important;
-        position: relative !important; /* Se apilan de forma normal */
+        position: relative !important; 
         transform: none !important;
         box-shadow: none !important;
-        display: none !important; /* Ocultamos todas por defecto */
+        display: block !important; /* ¡AHORA SÍ SE VEN TODAS! */
+        margin-bottom: 30px !important; /* Separa una hoja de la siguiente */
     }
 
-    /* Solo mostramos la hoja que está activa en ese momento */
-    .paper.active {
-        display: block !important;
-    }
-
-    /* ARREGLO CLAVE: Fuerza a que tanto la página izquierda como la derecha sean visibles */
+    /* Hace visibles tanto el frente como el reverso de cada hoja */
     .front, .back {
-        position: relative !important; /* Ya no se tapan una a la otra */
+        position: relative !important; 
         width: 100% !important;
         height: auto !important;
-        min-height: 300px !important;
-        backface-visibility: visible !important; /* Fuerza al celular a mostrar ambas */
+        backface-visibility: visible !important; 
         transform: none !important;
         display: block !important;
-        padding: 15px !important;
+        padding: 20px !important;
         box-sizing: border-box !important;
-        margin-bottom: 15px !important; /* Separa la página de arriba de la de abajo */
-        background-color: #fff !important; /* Asegura que tengan su fondo bonito */
-        border-radius: 10px !important;
+        background-color: #fff !important; 
+        border-radius: 12px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* Oculta los botones de Siguiente/Anterior en celular porque ya no se necesitan al deslizar */
+    .next-btn, .prev-btn {
+        display: none !important;
     }
 
     /* Encoje los textos para que quepan perfectos */
     h1, h2 {
-        font-size: 1.2rem !important;
+        font-size: 1.3rem !important;
         margin-top: 5px !important;
-        margin-bottom: 8px !important;
+        margin-bottom: 10px !important;
         text-align: center !important;
+        color: #d14d72 !important; /* Color bonito para los títulos */
     }
     
     p {
-        font-size: 12px !important;
-        line-height: 1.4 !important;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
         text-align: left !important;
     }
 
-    /* Ajusta las imágenes y fotos para que queden centradas */
+    /* Ajusta las imágenes y fotos para que queden perfectas y centradas */
     .page-image, .cover-image, img {
-        max-width: 85% !important;
+        max-width: 90% !important;
         height: auto !important;
-        max-height: 140px !important;
+        max-height: 180px !important;
         display: block !important;
-        margin: 10px auto !important;
-    }
-
-    /* Deja los botones fijos abajo de las tarjetas de texto */
-    .next-btn, .prev-btn {
-        position: relative !important;
-        display: block !important;
-        margin: 15px auto 0 auto !important;
-        bottom: 0 !important;
-        font-size: 13px !important;
-        padding: 8px 16px !important;
-        width: 60% !important;
-        text-align: center !important;
+        margin: 12px auto !important;
+        border-radius: 8px !important;
     }
 }
