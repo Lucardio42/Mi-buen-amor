@@ -346,9 +346,8 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
-/* SOLUCIÓN DE RECONSTRUCCIÓN COMPLETA PARA CELULARES */
+/* SOLUCIÓN DE PRECISIÓN: BOTONES FIJOS, AMBAS CARAS VISIBLES Y CONTRASEÑA ACTIVA */
 @media (max-width: 768px) {
-    /* Evita que la pantalla se mueva hacia los lados */
     html, body {
         overflow-x: hidden !important;
         margin: 0 !important;
@@ -356,19 +355,18 @@ p {
         width: 100% !important;
     }
 
-    /* Ajusta el contenedor del libro al tamaño de la pantalla del celular */
     #book, .book {
-        width: 90vw !important;  
-        height: 70vh !important; /* Altura ideal fija para que quepan los botones abajo */
+        width: 92vw !important;  
+        height: 78vh !important; /* Un poco más alto para dar aire a los botones */
         max-width: 360px !important; 
-        margin: 30px auto !important;
+        margin: 20px auto !important;
         position: relative !important;
         transform: none !important;
-        perspective: none !important; /* Desactiva conflictos 3D en móviles */
+        perspective: none !important;
         left: 0 !important;
     }
 
-    /* Manejo estricto de las hojas: para que JavaScript pueda ocultar/mostrar */
+    /* Permite que el script controle qué hoja se muestra sin romper el flujo */
     .paper {
         width: 100% !important;
         height: 100% !important;
@@ -376,75 +374,98 @@ p {
         left: 0 !important;
         top: 0 !important;
         transform: none !important;
-        /* IMPORTANTE: No usamos display: none aquí para no romper el script de la contraseña */
     }
 
-    /* Asegura que tanto la página izquierda (front) como la derecha (back) se superpongan correctamente en vertical */
-    .front, .back {
+    /* CAMBIO CLAVE: Separa la página izquierda y derecha de forma vertical para que NADA se tape */
+    .front {
         position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
         width: 100% !important;
-        height: 100% !important;
-        padding: 20px !important;
+        height: 48% !important; /* Toma la mitad superior de la hoja */
+        padding: 15px !important;
         box-sizing: border-box !important;
         background-color: #fff !important;
-        border-radius: 12px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
-        overflow-y: auto !important; /* Si el texto es largo, deja hacer scroll interno */
+        border-radius: 12px 12px 0 0 !important; /* Redondeado arriba */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+        overflow-y: auto !important;
+        backface-visibility: visible !important;
+        z-index: 2 !important;
     }
 
-    /* Evita que los textos se desborden de las hojas blancas */
+    .back {
+        position: absolute !important;
+        bottom: 0 !important; /* Se clava en la mitad inferior */
+        left: 0 !important;
+        width: 100% !important;
+        height: 48% !important; 
+        padding: 15px !important;
+        box-sizing: border-box !important;
+        background-color: #fff !important;
+        border-radius: 0 0 12px 12px !important; /* Redondeado abajo */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+        overflow-y: auto !important;
+        backface-visibility: visible !important;
+        transform: none !important; /* Evita que el texto salga al revés */
+        z-index: 2 !important;
+    }
+
+    /* Asegura que si la hoja se voltea, los contenidos sigan visibles */
+    .paper.flipped .front, .paper.flipped .back {
+        backface-visibility: visible !important;
+        transform: none !important;
+    }
+
+    /* Ajuste de textos para que quepan perfectos en sus respectivas mitades */
     h1, h2 {
         font-size: 1.1rem !important;
-        margin-top: 5px !important;
-        margin-bottom: 8px !important;
+        margin-top: 2px !important;
+        margin-bottom: 6px !important;
         text-align: center !important;
         color: #d14d72 !important;
     }
     
     p {
-        font-size: 12px !important;
-        line-height: 1.4 !important;
+        font-size: 11px !important;
+        line-height: 1.35 !important;
     }
 
-    /* Redimensiona imágenes y fotos para que no rompan el espacio */
+    /* Ajusta el tamaño de las fotos para que dejen espacio al texto */
     .page-image, .cover-image, img {
-        max-width: 85% !important;
+        max-width: 80% !important;
         height: auto !important;
-        max-height: 130px !important;
+        max-height: 95px !important; /* Tamaño compacto ideal */
         display: block !important;
-        margin: 10px auto !important;
-        border-radius: 8px !important;
+        margin: 5px auto !important;
+        border-radius: 6px !important;
     }
 
-    /* REUBICACIÓN DE BOTONES: Siempre visibles en la parte inferior de la pantalla del celular */
+    /* ARREGLO DE BOTONES: Forzamos su aparición y los ponemos flotando abajo del todo */
     .next-btn, .prev-btn {
-        display: block !important;
-        position: absolute !important;
-        bottom: 12px !important;
+        display: inline-block !important; /* Obliga a que se muestren */
+        visibility: visible !important;
+        position: fixed !important; /* Se quedan estáticos abajo de la pantalla táctil */
+        bottom: 25px !important;
         font-size: 12px !important;
-        padding: 8px 16px !important;
+        padding: 10px 20px !important;
         background-color: #d14d72 !important;
         color: white !important;
-        border: none !important;
-        border-radius: 20px !important;
-        z-index: 100 !important; /* Los pone por encima de todo para que se puedan presionar */
+        border: 2px solid #fff !important;
+        border-radius: 25px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        z-index: 9999px !important; /* Por encima de cualquier elemento */
+        cursor: pointer !important;
     }
 
-    /* El botón anterior a la izquierda y el siguiente a la derecha */
+    /* Ubicación exacta en las esquinas de la pantalla del celular */
     .prev-btn {
-        left: 15px !important;
+        left: 25px !important;
     }
     .next-btn {
-        right: 15px !important;
+        right: 25px !important;
     }
 
-    /* Espacio extra abajo en los textos para que el botón no tape la lectura */
-    .page-main-content, .front-content, .back-content {
-        padding-bottom: 45px !important;
-        box-sizing: border-box !important;
-    }
-
-    /* Si tienes una pantalla o recuadro para la Contraseña, la centramos aquí */
+    /* Contenedor de contraseña */
     #password-container, .password-screen {
         width: 100% !important;
         padding: 20px !important;
