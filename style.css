@@ -346,7 +346,7 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
-/* SOLUCIÓN TOTAL: MODO LIBRO EN PC, MODO UNA PÁGINA EN CELULAR (CON CONTRASEÑA Y BOTONES) */
+/* SOLUCIÓN DE BOTONES ÚNICOS: COMPACTO EN CELULAR */
 @media (max-width: 768px) {
     html, body {
         overflow-x: hidden !important;
@@ -362,10 +362,9 @@ p {
         min-height: 100vh !important;
     }
 
-    /* Redimensiona la caja del libro para el celular */
     #book, .book {
         width: 88vw !important;  
-        height: 75vh !important; /* Altura ideal fija para que el contenido no tape los botones */
+        height: 70vh !important; 
         max-width: 350px !important; 
         margin: 0 auto !important;
         position: relative !important;
@@ -375,7 +374,6 @@ p {
         top: 0 !important;
     }
 
-    /* Permite que el JavaScript controle qué hoja se ve en el celular sin romper nada */
     .paper {
         width: 100% !important;
         height: 100% !important;
@@ -385,7 +383,6 @@ p {
         transform: none !important;
     }
 
-    /* TRUCO MAESTRO: Encima el frente y el reverso perfectamente. El JavaScript decidirá cuál se ve */
     .front, .back {
         position: absolute !important;
         width: 100% !important;
@@ -397,22 +394,20 @@ p {
         background-color: #fff !important;
         border-radius: 12px !important;
         box-shadow: 0 5px 20px rgba(0,0,0,0.2) !important;
-        overflow-y: auto !important; /* Si pones mucho texto, deja deslizar hacia abajo dentro de la hoja */
+        overflow-y: auto !important;
     }
 
-    /* Evita que los textos salgan de cabeza o invisibles cuando el JS use sus estilos */
     .paper.flipped .back {
         transform: none !important;
-        z-index: 5 !important; /* Pone la página de atrás al frente cuando se voltea */
+        z-index: 5 !important;
         backface-visibility: visible !important;
     }
 
     .paper.flipped .front {
         z-index: 1 !important;
-        backface-visibility: hidden !important; /* Esconde el frente para que no estorbe */
+        backface-visibility: hidden !important;
     }
 
-    /* Ajuste de textos en pantallas móviles */
     h1, h2 {
         font-size: 1.2rem !important;
         margin-top: 5px !important;
@@ -426,7 +421,6 @@ p {
         line-height: 1.45 !important;
     }
 
-    /* Ajusta las imágenes para que mantengan su proporción y no se desborden */
     .page-image, .cover-image, img {
         max-width: 85% !important;
         height: auto !important;
@@ -436,39 +430,40 @@ p {
         border-radius: 8px !important;
     }
 
-    /* ARREGLO DE BOTONES ÚNICOS: Fijos abajo de la pantalla de la hoja activa */
-    .next-btn, .prev-btn {
-        display: block !important;
-        visibility: visible !important;
-        position: absolute !important; /* Se quedan clavados en la parte inferior de la hoja */
-        bottom: 15px !important;
-        font-size: 12px !important;
-        padding: 8px 18px !important;
-        background-color: #d14d72 !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 20px !important;
-        z-index: 999 !important; /* Por encima de todo para que se dejen presionar */
-        cursor: pointer !important;
+    /* ESTILO PARA LOS NUEVOS BOTONES GENERALES ABAJO EN EL CELULAR */
+    .book-buttons {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 90vw !important;
+        max-width: 350px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        z-index: 9999 !important;
     }
 
-    /* Botón anterior a la izquierda, botón siguiente a la derecha */
-    .prev-btn {
-        left: 20px !important;
+    /* Forzamos a que los viejos botones que queden en el HTML no se muestren */
+    .front button, .back button, #p1 button {
+        display: none !important;
+        visibility: hidden !important;
     }
-    .next-btn {
-        right: 20px !important;
-    }
+}
 
-    /* Deja espacio abajo en los textos para que ningún botón tape la lectura */
-    .page-main-content, .front-content, .back-content {
-        padding-bottom: 40px !important;
-    }
-
-    /* Contenedor de la pantalla de contraseña */
-    #password-container, .password-screen {
-        width: 100% !important;
-        padding: 15px !important;
-        box-sizing: border-box !important;
-    }
+/* Estilo general de los botones flotantes (Aplica para PC y Celular) */
+.floating-btn {
+    padding: 10px 20px;
+    background-color: #d14d72;
+    color: white;
+    border: 2px solid #fff;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    transition: transform 0.2s;
+}
+.floating-btn:active {
+    transform: scale(0.95);
 }
