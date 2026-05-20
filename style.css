@@ -346,7 +346,7 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
-/* SOLUCIÓN DE BOTONES ÚNICOS: COMPACTO EN CELULAR */
+/* REGLAS FINALES DEFINITIVAS: UNA PÁGINA A LA VEZ CON BOTONES COMPATIBLES */
 @media (max-width: 768px) {
     html, body {
         overflow-x: hidden !important;
@@ -362,10 +362,11 @@ p {
         min-height: 100vh !important;
     }
 
+    /* Caja del libro del tamaño de la pantalla móvil */
     #book, .book {
-        width: 88vw !important;  
-        height: 70vh !important; 
-        max-width: 350px !important; 
+        width: 90vw !important;  
+        height: 72vh !important; 
+        max-width: 360px !important; 
         margin: 0 auto !important;
         position: relative !important;
         transform: none !important;
@@ -374,6 +375,7 @@ p {
         top: 0 !important;
     }
 
+    /* Las hojas físicas se apilan perfectamente */
     .paper {
         width: 100% !important;
         height: 100% !important;
@@ -383,23 +385,25 @@ p {
         transform: none !important;
     }
 
+    /* El frente y el reverso se enciman, el z-index del JS maneja cuál se ve */
     .front, .back {
         position: absolute !important;
         width: 100% !important;
         height: 100% !important;
         top: 0 !important;
         left: 0 !important;
-        padding: 20px !important;
+        padding: 22px 20px !important;
         box-sizing: border-box !important;
         background-color: #fff !important;
-        border-radius: 12px !important;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2) !important;
-        overflow-y: auto !important;
+        border-radius: 16px !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        overflow-y: auto !important; 
     }
 
+    /* Cuando el JS voltea el libro, trae el reverso limpiamente al frente */
     .paper.flipped .back {
         transform: none !important;
-        z-index: 5 !important;
+        z-index: 99 !important; 
         backface-visibility: visible !important;
     }
 
@@ -408,10 +412,30 @@ p {
         backface-visibility: hidden !important;
     }
 
+    /* Escondemos los botones internos del HTML viejo para que no salgan duplicados */
+    .front button:not(.floating-btn), .back button:not(.floating-btn), .paper button:not(.floating-btn) {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* ACOMODO DE TUS NUEVOS BOTONES GENERALES (Fijos abajo de la pantalla) */
+    .book-buttons {
+        position: fixed !important;
+        bottom: 25px !important; 
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 88vw !important;
+        max-width: 340px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        z-index: 99999 !important; 
+    }
+
+    /* Textos optimizados para móvil */
     h1, h2 {
         font-size: 1.2rem !important;
         margin-top: 5px !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 8px !important;
         text-align: center !important;
         color: #d14d72 !important;
     }
@@ -424,35 +448,20 @@ p {
     .page-image, .cover-image, img {
         max-width: 85% !important;
         height: auto !important;
-        max-height: 140px !important;
+        max-height: 135px !important;
         display: block !important;
         margin: 10px auto !important;
         border-radius: 8px !important;
     }
 
-    /* ESTILO PARA LOS NUEVOS BOTONES GENERALES ABAJO EN EL CELULAR */
-    .book-buttons {
-        position: fixed !important;
-        bottom: 20px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 90vw !important;
-        max-width: 350px !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        z-index: 9999 !important;
-    }
-
-    /* Forzamos a que los viejos botones que queden en el HTML no se muestren */
-    .front button, .back button, #p1 button {
-        display: none !important;
-        visibility: hidden !important;
+    .page-main-content, .front-content, .back-content {
+        padding-bottom: 45px !important;
     }
 }
 
-/* Estilo general de los botones flotantes (Aplica para PC y Celular) */
+/* ESTILO GLOBAL PARA LOS BOTONES FLOTANTES */
 .floating-btn {
-    padding: 10px 20px;
+    padding: 10px 22px;
     background-color: #d14d72;
     color: white;
     border: 2px solid #fff;
@@ -460,10 +469,5 @@ p {
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    z-index: 9999;
-    transition: transform 0.2s;
-}
-.floating-btn:active {
-    transform: scale(0.95);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
