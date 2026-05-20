@@ -476,3 +476,27 @@ p {
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
+
+/* ORDEN FINAL: Botones ocultos en PC, activos en celular */
+.book-buttons {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .book-buttons {
+        display: flex !important;
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90vw;
+        max-width: 350px;
+        justify-content: space-between;
+        z-index: 999999;
+        pointer-events: auto !important;
+    }
+
+    .next-btn, .prev-btn {
+        display: none !important;
+    }
+}
