@@ -346,74 +346,75 @@ p {
     animation: float 4s ease-in-out infinite reverse;
 }
 
-/* SOLUCIÓN FINAL Y DEFINITIVA: CARTA VERTICAL FLUIDA (SIN SALTOS NI BOTONES DUPLICADOS) */
+/* SOLUCIÓN TOTAL: MODO LIBRO EN PC, MODO UNA PÁGINA EN CELULAR (CON CONTRASEÑA Y BOTONES) */
 @media (max-width: 768px) {
-    /* Evita que el fondo se mueva a los lados */
     html, body {
         overflow-x: hidden !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
-        background-attachment: scroll !important; /* Mejora el fondo en móviles */
     }
 
-    /* Contenedor principal: ahora es una columna vertical */
+    body {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: 100vh !important;
+    }
+
+    /* Redimensiona la caja del libro para el celular */
     #book, .book {
-        width: 95vw !important;  
-        height: auto !important; /* ¡IMPORTANTE! Crece hacia abajo */
-        max-width: 380px !important; 
-        margin: 10px auto !important;
+        width: 88vw !important;  
+        height: 75vh !important; /* Altura ideal fija para que el contenido no tape los botones */
+        max-width: 350px !important; 
+        margin: 0 auto !important;
         position: relative !important;
         transform: none !important;
         perspective: none !important;
-        display: flex !important;
-        flex-direction: column !important; /* Apila las hojas una debajo de la otra */
-        align-items: center !important;
-        left: 0 !important;
-    }
-
-    /* Desactiva el sistema de capas de JavaScript en celular para evitar conflictos */
-    .paper {
-        width: 100% !important;
-        height: auto !important;
-        position: relative !important; 
-        transform: none !important;
-        box-shadow: none !important;
-        display: block !important; /* ¡IMPORTANTE! Muestra TODAS las hojas de corrido */
-        margin-bottom: 20px !important; /* Separa una hoja de la siguiente */
         left: 0 !important;
         top: 0 !important;
-        backface-visibility: visible !important;
-        z-index: 1 !important;
     }
 
-    /* Muestra la página izquierda y derecha una debajo de la otra */
-    .front, .back {
-        position: relative !important; 
+    /* Permite que el JavaScript controle qué hoja se ve en el celular sin romper nada */
+    .paper {
         width: 100% !important;
-        height: auto !important;
-        min-height: 250px !important; /* Altura mínima para que tengan forma de hoja */
+        height: 100% !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        transform: none !important;
+    }
+
+    /* TRUCO MAESTRO: Encima el frente y el reverso perfectamente. El JavaScript decidirá cuál se ve */
+    .front, .back {
+        position: absolute !important;
+        width: 100% !important;
+        height: 100% !important;
+        top: 0 !important;
+        left: 0 !important;
         padding: 20px !important;
         box-sizing: border-box !important;
         background-color: #fff !important;
         border-radius: 12px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2) !important;
+        overflow-y: auto !important; /* Si pones mucho texto, deja deslizar hacia abajo dentro de la hoja */
+    }
+
+    /* Evita que los textos salgan de cabeza o invisibles cuando el JS use sus estilos */
+    .paper.flipped .back {
+        transform: none !important;
+        z-index: 5 !important; /* Pone la página de atrás al frente cuando se voltea */
         backface-visibility: visible !important;
-        transform: none !important; /* Evita textos al revés */
-        display: block !important;
-        margin-bottom: 10px !important; /* Separa el frente del reverso */
     }
 
-    /* SOLUCIÓN AL PROBLEMA DE LOS BOTONES: Los ocultamos por completo en celular */
-    /* Ella no los necesita porque leerá deslizando hacia abajo */
-    .next-btn, .prev-btn {
-        display: none !important;
-        visibility: hidden !important;
+    .paper.flipped .front {
+        z-index: 1 !important;
+        backface-visibility: hidden !important; /* Esconde el frente para que no estorbe */
     }
 
-    /* Encoje los textos para que quepan perfectos */
+    /* Ajuste de textos en pantallas móviles */
     h1, h2 {
-        font-size: 1.25rem !important;
+        font-size: 1.2rem !important;
         margin-top: 5px !important;
         margin-bottom: 10px !important;
         text-align: center !important;
@@ -421,27 +422,53 @@ p {
     }
     
     p {
-        font-size: 13px !important;
-        line-height: 1.5 !important;
-        text-align: left !important;
+        font-size: 12.5px !important;
+        line-height: 1.45 !important;
     }
 
-    /* Ajusta las imágenes y fotos para que queden centradas y nítidas */
+    /* Ajusta las imágenes para que mantengan su proporción y no se desborden */
     .page-image, .cover-image, img {
-        max-width: 90% !important;
+        max-width: 85% !important;
         height: auto !important;
-        max-height: 160px !important;
+        max-height: 140px !important;
         display: block !important;
-        margin: 12px auto !important;
+        margin: 10px auto !important;
         border-radius: 8px !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
     }
 
-    /* Contenedor de la contraseña: la mantenemos al principio */
+    /* ARREGLO DE BOTONES ÚNICOS: Fijos abajo de la pantalla de la hoja activa */
+    .next-btn, .prev-btn {
+        display: block !important;
+        visibility: visible !important;
+        position: absolute !important; /* Se quedan clavados en la parte inferior de la hoja */
+        bottom: 15px !important;
+        font-size: 12px !important;
+        padding: 8px 18px !important;
+        background-color: #d14d72 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        z-index: 999 !important; /* Por encima de todo para que se dejen presionar */
+        cursor: pointer !important;
+    }
+
+    /* Botón anterior a la izquierda, botón siguiente a la derecha */
+    .prev-btn {
+        left: 20px !important;
+    }
+    .next-btn {
+        right: 20px !important;
+    }
+
+    /* Deja espacio abajo en los textos para que ningún botón tape la lectura */
+    .page-main-content, .front-content, .back-content {
+        padding-bottom: 40px !important;
+    }
+
+    /* Contenedor de la pantalla de contraseña */
     #password-container, .password-screen {
         width: 100% !important;
-        padding: 20px !important;
+        padding: 15px !important;
         box-sizing: border-box !important;
-        margin-bottom: 20px !important;
     }
 }
